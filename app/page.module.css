@@ -10,14 +10,16 @@
 }
 
 .header {
-  padding: 2rem 0;
+  padding: 1.5rem 0;
   border-bottom: 1px solid #E5E7EB;
+  background: white;
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #2E4756;
+  letter-spacing: -0.02em;
 }
 
 .hero {

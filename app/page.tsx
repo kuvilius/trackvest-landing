@@ -35,13 +35,19 @@ export default function Home() {
           <div className={styles.feature}>
             <div className={styles.featureIcon}>💰</div>
             <h3>Real-Time Pricing</h3>
-            <p>Live market prices from Chrono24, StockX, and more.</p>
+            <p>Stay updated with current market values and trends.</p>
           </div>
           
           <div className={styles.feature}>
             <div className={styles.featureIcon}>🔔</div>
             <h3>Price Alerts</h3>
             <p>Get notified when assets hit your target prices.</p>
+          </div>
+          
+          <div className={styles.feature}>
+            <div className={styles.featureIcon}>📈</div>
+            <h3>Performance Analytics</h3>
+            <p>Track portfolio growth and individual asset performance.</p>
           </div>
         </section>
 

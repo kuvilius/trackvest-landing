@@ -29,22 +29,12 @@ export default function Privacy() {
         </section>
 
         <section>
-          <h2>3. Third-Party Services</h2>
-          <p>We use the following third-party services:</p>
-          <ul>
-            <li><strong>Supabase</strong> - Database and authentication</li>
-            <li><strong>Chrono24</strong> - Watch pricing data (web scraping)</li>
-            <li><strong>StockX</strong> - Sneaker pricing data (future)</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2>4. Data Security</h2>
+          <h2>3. Data Security</h2>
           <p>We implement industry-standard security measures to protect your data. All data is encrypted in transit and at rest.</p>
         </section>
 
         <section>
-          <h2>5. Your Rights</h2>
+          <h2>4. Your Rights</h2>
           <p>You have the right to:</p>
           <ul>
             <li>Access your data</li>
@@ -55,7 +45,7 @@ export default function Privacy() {
         </section>
 
         <section>
-          <h2>6. Contact Us</h2>
+          <h2>5. Contact Us</h2>
           <p>For privacy concerns, contact us at: <a href="mailto:support@trackvest.app">support@trackvest.app</a></p>
         </section>
 
