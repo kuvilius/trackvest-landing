@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #FAFAFA;
   padding: 2rem;
 }
 
@@ -9,27 +9,29 @@
   margin: 0 auto;
   background: white;
   padding: 3rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
 }
 
 .content h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: #1F3240;
+  font-weight: 700;
 }
 
 .updated {
-  color: #666;
+  color: #64748B;
   font-size: 0.9rem;
   margin-bottom: 2rem;
 }
 
 .content h2 {
-  font-size: 1.8rem;
-  margin-top: 2rem;
+  font-size: 1.5rem;
+  margin-top: 2.5rem;
   margin-bottom: 1rem;
-  color: #444;
+  color: #2E4756;
+  font-weight: 600;
 }
 
 .content section {
@@ -38,7 +40,7 @@
 
 .content p {
   line-height: 1.8;
-  color: #555;
+  color: #64748B;
   margin-bottom: 1rem;
 }
 
@@ -49,18 +51,20 @@
 
 .content li {
   line-height: 1.8;
-  color: #555;
+  color: #64748B;
   margin-bottom: 0.5rem;
 }
 
 .content a {
-  color: #667eea;
-  font-weight: 600;
-  text-decoration: underline;
+  color: #F59E0B;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .content a:hover {
-  color: #764ba2;
+  color: #D97706;
+  text-decoration: underline;
 }
 
 .email {
@@ -70,39 +74,41 @@
 }
 
 .faq {
-  background: #f8f9fa;
+  background: #FAFAFA;
   padding: 1.5rem;
-  border-radius: 10px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
   margin-bottom: 1rem;
 }
 
 .faq h3 {
-  font-size: 1.2rem;
-  color: #333;
+  font-size: 1.1rem;
+  color: #1F3240;
   margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .faq p {
-  color: #555;
+  color: #64748B;
   margin-bottom: 0;
 }
 
 .back {
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #E5E7EB;
   text-align: center;
 }
 
 .back a {
-  color: #667eea;
+  color: #2E4756;
   font-weight: 600;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .back a:hover {
-  color: #764ba2;
+  color: #F59E0B;
 }
 
 @media (max-width: 768px) {
@@ -115,6 +121,6 @@
   }
 
   .content h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 }
