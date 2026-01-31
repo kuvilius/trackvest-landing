@@ -1,7 +1,6 @@
 'use client'
 
 import { Suspense, useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 import styles from './reset-password.module.css'
 
@@ -11,34 +10,47 @@ const supabase = createClient(
 )
 
 function ResetPasswordForm() {
-  const searchParams = useSearchParams()
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [initializing, setInitializing] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
+  const [hasSession, setHasSession] = useState(false)
 
-  // Check if user has an active recovery session on mount
+  // Supabase sends recovery links with URL hash fragments
+  // Format: https://trackvest.app/reset-password#access_token=...&type=recovery
   useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
-        console.log('Recovery session already established')
-      } else {
-        // Try to establish session from URL params
-        const code = searchParams.get('code')
-        if (code) {
-          console.log('Attempting to exchange code for session')
-          const { error } = await supabase.auth.exchangeCodeForSession(code)
-          if (error) {
-            console.error('Code exchange failed:', error)
-            setError('Reset link has expired. Please request a new password reset.')
-          }
+    const initializeSession = async () => {
+      try {
+        // Supabase client automatically detects and processes the hash fragment
+        // Just check if we have a session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+        
+        if (sessionError) {
+          console.error('Session error:', sessionError)
+          setError('Failed to establish reset session. Please request a new reset link.')
+          setInitializing(false)
+          return
         }
+
+        if (session) {
+          console.log('Reset session established successfully')
+          setHasSession(true)
+        } else {
+          console.log('No session found - reset link may be invalid or expired')
+          setError('Reset link has expired or is invalid. Please request a new password reset.')
+        }
+      } catch (err) {
+        console.error('Initialization error:', err)
+        setError('An error occurred. Please request a new password reset.')
+      } finally {
+        setInitializing(false)
       }
     }
-    checkSession()
-  }, [searchParams])
+
+    initializeSession()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,18 +66,22 @@ function ResetPasswordForm() {
       return
     }
 
+    if (!hasSession) {
+      setError('No active session. Please click the reset link in your email again.')
+      return
+    }
+
     setLoading(true)
 
     try {
-      // The session should already be established from useEffect
-      // Just update the password
+      // Update the password using the established session
       const { error: updateError } = await supabase.auth.updateUser({
         password: password,
       })
 
       if (updateError) {
         console.error('Password update error:', updateError)
-        setError('Failed to update password. Please try again.')
+        setError('Failed to update password: ' + updateError.message)
         return
       }
 
@@ -75,7 +91,6 @@ function ResetPasswordForm() {
       await supabase.auth.signOut()
       
       setTimeout(() => {
-        // Redirect to home page
         window.location.href = '/'
       }, 3000)
     } catch (err: any) {
@@ -98,6 +113,17 @@ function ResetPasswordForm() {
           <a href="/" className={styles.button}>
             Back to Home
           </a>
+        </div>
+      </div>
+    )
+  }
+
+  if (initializing) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <div className={styles.spinner}></div>
+          <p className={styles.subtitle}>Verifying reset link...</p>
         </div>
       </div>
     )
