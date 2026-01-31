@@ -23,8 +23,48 @@ function ResetPasswordForm() {
   useEffect(() => {
     const initializeSession = async () => {
       try {
-        // Supabase client automatically detects and processes the hash fragment
-        // Just check if we have a session
+        // Debug: log the full URL
+        const fullUrl = window.location.href
+        const hash = window.location.hash
+        console.log('Full URL:', fullUrl)
+        console.log('Hash fragment:', hash)
+        
+        // Parse hash parameters manually
+        const hashParams = new URLSearchParams(hash.substring(1)) // Remove the '#'
+        const accessToken = hashParams.get('access_token')
+        const refreshToken = hashParams.get('refresh_token')
+        const type = hashParams.get('type')
+        
+        console.log('Hash params:', { 
+          accessToken: accessToken ? 'present' : 'missing',
+          refreshToken: refreshToken ? 'present' : 'missing', 
+          type 
+        })
+        
+        // If we have tokens in the hash, set the session manually
+        if (accessToken && refreshToken) {
+          console.log('Setting session from hash tokens')
+          const { data, error: setSessionError } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken,
+          })
+          
+          if (setSessionError) {
+            console.error('Set session error:', setSessionError)
+            setError('Failed to establish reset session. The link may have expired.')
+            setInitializing(false)
+            return
+          }
+          
+          if (data.session) {
+            console.log('Session established from hash tokens')
+            setHasSession(true)
+            setInitializing(false)
+            return
+          }
+        }
+        
+        // Fallback: check if session already exists
         const { data: { session }, error: sessionError } = await supabase.auth.getSession()
         
         if (sessionError) {
@@ -35,10 +75,10 @@ function ResetPasswordForm() {
         }
 
         if (session) {
-          console.log('Reset session established successfully')
+          console.log('Reset session already established')
           setHasSession(true)
         } else {
-          console.log('No session found - reset link may be invalid or expired')
+          console.log('No session found and no tokens in URL')
           setError('Reset link has expired or is invalid. Please request a new password reset.')
         }
       } catch (err) {
