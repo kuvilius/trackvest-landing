@@ -67,24 +67,34 @@ function ResetPasswordForm() {
           type 
         })
         
-        // If we have tokens in the hash, set the session manually
-        if (accessToken && refreshToken) {
-          console.log('Setting session from hash tokens')
-          const { data, error: setSessionError } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken,
-          })
+        // If we have an access token in the hash (even without refresh token)
+        if (accessToken) {
+          console.log('Found access token, setting session')
           
-          if (setSessionError) {
-            console.error('Set session error:', setSessionError)
-            setError('Failed to establish reset session. The link may have expired.')
-            setInitializing(false)
-            return
-          }
-          
-          if (data.session) {
-            console.log('Session established from hash tokens')
-            setHasSession(true)
+          // Try to set session with access token
+          // For recovery tokens, refresh_token might not be present
+          try {
+            const { data, error: setSessionError } = await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken || '', // Empty string if missing
+            })
+            
+            if (setSessionError) {
+              console.error('Set session error:', setSessionError)
+              setError('Failed to establish reset session. The link may have expired.')
+              setInitializing(false)
+              return
+            }
+            
+            if (data.session) {
+              console.log('Session established successfully')
+              setHasSession(true)
+              setInitializing(false)
+              return
+            }
+          } catch (err) {
+            console.error('Session setup error:', err)
+            setError('Failed to process reset link.')
             setInitializing(false)
             return
           }
