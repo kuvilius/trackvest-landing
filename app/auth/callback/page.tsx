@@ -1,10 +1,18 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './callback.module.css'
 
 export default function AuthCallback() {
+  const [mounted, setMounted] = useState(false)
+  
   useEffect(() => {
+    setMounted(true)
+  }, [])
+  
+  useEffect(() => {
+    if (!mounted) return
+    
     const params = new URLSearchParams(window.location.search)
     const code = params.get('code')
     const error = params.get('error')
@@ -28,7 +36,7 @@ export default function AuthCallback() {
     setTimeout(() => {
       // Page will show after 2 seconds if app didn't open
     }, 2000)
-  }, [])
+  }, [mounted])
 
   return (
     <div className={styles.container}>
@@ -40,9 +48,16 @@ export default function AuthCallback() {
         
         <div className={styles.fallback}>
           <p>App not opening?</p>
-          <a href={'trackvest://auth/callback' + window.location.search} className={styles.button}>
+          <button 
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.location.href = 'trackvest://auth/callback' + window.location.search
+              }
+            }}
+            className={styles.button}
+          >
             Open App Manually
-          </a>
+          </button>
           <p className={styles.downloadText}>
             Don't have the app? Download it from the <a href="/">App Store</a> or <a href="/">Google Play</a>
           </p>
