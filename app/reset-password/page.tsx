@@ -18,6 +18,28 @@ function ResetPasswordForm() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 
+  // Check if user has an active recovery session on mount
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        console.log('Recovery session already established')
+      } else {
+        // Try to establish session from URL params
+        const code = searchParams.get('code')
+        if (code) {
+          console.log('Attempting to exchange code for session')
+          const { error } = await supabase.auth.exchangeCodeForSession(code)
+          if (error) {
+            console.error('Code exchange failed:', error)
+            setError('Reset link has expired. Please request a new password reset.')
+          }
+        }
+      }
+    }
+    checkSession()
+  }, [searchParams])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
@@ -35,30 +57,16 @@ function ResetPasswordForm() {
     setLoading(true)
 
     try {
-      // Get the code from URL
-      const code = searchParams.get('code')
-      
-      if (!code) {
-        setError('Invalid reset link')
-        return
-      }
-
-      // Exchange code for session
-      const { data: sessionData, error: sessionError } = await supabase.auth.exchangeCodeForSession(code)
-      
-      if (sessionError) {
-        console.error('Session exchange error:', sessionError)
-        throw new Error('Failed to verify reset link')
-      }
-
-      // Update password
+      // The session should already be established from useEffect
+      // Just update the password
       const { error: updateError } = await supabase.auth.updateUser({
         password: password,
       })
 
       if (updateError) {
         console.error('Password update error:', updateError)
-        throw new Error('Failed to update password')
+        setError('Failed to update password. Please try again.')
+        return
       }
 
       setSuccess(true)
