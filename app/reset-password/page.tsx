@@ -26,8 +26,34 @@ function ResetPasswordForm() {
         // Debug: log the full URL
         const fullUrl = window.location.href
         const hash = window.location.hash
+        const search = window.location.search
         console.log('Full URL:', fullUrl)
         console.log('Hash fragment:', hash)
+        console.log('Query string:', search)
+        
+        // Check for query parameter code (PKCE flow from Supabase)
+        const queryParams = new URLSearchParams(search)
+        const code = queryParams.get('code')
+        
+        if (code) {
+          console.log('Found code in query params, attempting to exchange')
+          // For password recovery, try exchanging with empty code verifier
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+          
+          if (error) {
+            console.error('Code exchange error:', error)
+            setError('This reset link cannot be opened in a browser. Please use the mobile app or request a new reset link.')
+            setInitializing(false)
+            return
+          }
+          
+          if (data.session) {
+            console.log('Session established from code exchange')
+            setHasSession(true)
+            setInitializing(false)
+            return
+          }
+        }
         
         // Parse hash parameters manually
         const hashParams = new URLSearchParams(hash.substring(1)) // Remove the '#'
