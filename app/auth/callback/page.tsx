@@ -35,8 +35,15 @@ export default function AuthCallback() {
       return
     }
     
-    // Build the deep link with all parameters
-    const deepLink = `trackvest://auth/callback?code=${code}${type ? `&type=${type}` : ''}`
+    // If this is a password recovery, redirect to reset password page
+    if (type === 'recovery') {
+      console.log('Password recovery - redirecting to reset password page')
+      window.location.href = `/reset-password?code=${code}`
+      return
+    }
+    
+    // Otherwise, it's email verification - try to open the app
+    const deepLink = `trackvest://auth/callback?code=${code}`
     
     // Try to open the app via deep link
     console.log('Opening deep link:', deepLink)
