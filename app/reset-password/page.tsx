@@ -1,11 +1,16 @@
 'use client'
 
 import { Suspense, useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { createClient } from '@supabase/supabase-js'
 import styles from './reset-password.module.css'
 
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
+
 function ResetPasswordForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -38,50 +43,31 @@ function ResetPasswordForm() {
         return
       }
 
-      // Call Supabase API to reset password
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/token?grant_type=pkce`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-          },
-          body: JSON.stringify({
-            auth_code: code,
-          }),
-        }
-      )
-
-      if (!response.ok) {
+      // Exchange code for session
+      const { data: sessionData, error: sessionError } = await supabase.auth.exchangeCodeForSession(code)
+      
+      if (sessionError) {
+        console.error('Session exchange error:', sessionError)
         throw new Error('Failed to verify reset link')
       }
 
-      const { access_token } = await response.json()
-
       // Update password
-      const updateResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-            'Authorization': `Bearer ${access_token}`,
-          },
-          body: JSON.stringify({
-            password: password,
-          }),
-        }
-      )
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: password,
+      })
 
-      if (!updateResponse.ok) {
+      if (updateError) {
+        console.error('Password update error:', updateError)
         throw new Error('Failed to update password')
       }
 
       setSuccess(true)
+      
+      // Sign out after password reset
+      await supabase.auth.signOut()
+      
       setTimeout(() => {
-        // Redirect to app download page or show success message
+        // Redirect to home page
         window.location.href = '/'
       }, 3000)
     } catch (err: any) {
