@@ -69,31 +69,31 @@ function ResetPasswordForm() {
         
         // If we have an access token in the hash (even without refresh token)
         if (accessToken) {
-          console.log('Found access token, setting session')
+          console.log('Found access token, attempting verification')
           
-          // Try to set session with access token
-          // For recovery tokens, refresh_token might not be present
+          // The token is actually a token_hash for OTP verification
+          // Use verifyOtp instead of setSession
           try {
-            const { data, error: setSessionError } = await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken || '', // Empty string if missing
+            const { data, error: verifyError } = await supabase.auth.verifyOtp({
+              token_hash: accessToken,
+              type: 'recovery',
             })
             
-            if (setSessionError) {
-              console.error('Set session error:', setSessionError)
-              setError('Failed to establish reset session. The link may have expired.')
+            if (verifyError) {
+              console.error('OTP verification error:', verifyError)
+              setError('Failed to verify reset link. The link may have expired.')
               setInitializing(false)
               return
             }
             
             if (data.session) {
-              console.log('Session established successfully')
+              console.log('Session established from OTP verification')
               setHasSession(true)
               setInitializing(false)
               return
             }
           } catch (err) {
-            console.error('Session setup error:', err)
+            console.error('Verification error:', err)
             setError('Failed to process reset link.')
             setInitializing(false)
             return
