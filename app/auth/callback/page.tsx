@@ -5,8 +5,24 @@ import styles from './callback.module.css'
 
 export default function AuthCallback() {
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const code = params.get('code')
+    const error = params.get('error')
+    const errorDescription = params.get('error_description')
+    
+    // Log for debugging
+    console.log('Callback params:', { code, error, errorDescription })
+    
+    if (error) {
+      console.error('Auth error:', error, errorDescription)
+    }
+    
+    // Build the deep link with all parameters
+    const deepLink = 'trackvest://auth/callback' + window.location.search
+    
     // Try to open the app via deep link
-    window.location.href = 'trackvest://auth/callback' + window.location.search
+    console.log('Opening deep link:', deepLink)
+    window.location.href = deepLink
     
     // If deep link doesn't work, show the page
     setTimeout(() => {
@@ -24,7 +40,7 @@ export default function AuthCallback() {
         
         <div className={styles.fallback}>
           <p>App not opening?</p>
-          <a href="trackvest://auth/callback" className={styles.button}>
+          <a href={'trackvest://auth/callback' + window.location.search} className={styles.button}>
             Open App Manually
           </a>
           <p className={styles.downloadText}>
