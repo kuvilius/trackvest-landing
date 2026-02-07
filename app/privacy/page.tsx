@@ -236,7 +236,9 @@ export default function Privacy() {
             <li>Contact us using the contact information provided.</li>
           </ul>
           
-          <p>Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, we may retain some information in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our legal terms and/or comply with applicable legal requirements.</p>
+          <p>Upon your request to terminate your account, we will immediately deactivate your account and permanently delete or anonymise your personal information in accordance with GDPR and applicable data protection laws. This includes the deletion of all personally identifiable information (PII) such as your contact details, authentication credentials, and user-generated content. Your portfolio data may be retained in anonymised form for aggregate market analytics purposes only, ensuring no information can be traced back to you personally. This process is immediate and irreversible.</p>
+          
+          <p>However, we may retain minimal anonymised information in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our legal terms and/or comply with applicable legal requirements.</p>
           
           <p>If you have questions or comments about your privacy rights, you may email us at <a href="mailto:support@trackvest.app">support@trackvest.app</a>.</p>
         </section>
