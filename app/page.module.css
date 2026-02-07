@@ -3,27 +3,67 @@
   background: #FAFAFA;
 }
 
-.container {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 2rem;
+/* Header */
+.header {
+  background: white;
+  border-bottom: 1px solid #E5E7EB;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9);
 }
 
-.header {
-  padding: 2rem 0 0;
-  text-align: center;
+.headerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #2E4756;
   letter-spacing: -0.02em;
 }
 
+.nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav a {
+  color: #64748B;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  color: #F59E0B;
+}
+
+/* Hero Section */
 .hero {
-  text-align: center;
-  padding: 4rem 2rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+}
+
+.heroContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.heroText {
+  max-width: 540px;
 }
 
 .title {
@@ -32,118 +72,387 @@
   color: #1F3240;
   margin-bottom: 1.5rem;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
 }
 
 .subtitle {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: #64748B;
-  margin-bottom: 3rem;
-  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
   font-weight: 400;
 }
 
-.comingSoon {
-  margin-top: 2rem;
+.downloadButtons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
-.badge {
+.appButton {
   display: inline-block;
-  background: #2E4756;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  padding: 4rem 2rem;
-  margin-top: 2rem;
-}
-
-.feature {
-  background: white;
-  border: 1px solid #E5E7EB;
-  padding: 2rem;
+  background: #1F3240;
+  border: 2px solid #1F3240;
   border-radius: 12px;
-  text-align: center;
-  transition: all 0.3s ease;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.feature:hover {
-  border-color: #F59E0B;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+.appButton:hover {
+  background: #2E4756;
+  border-color: #2E4756;
   transform: translateY(-2px);
 }
 
-.featureIcon {
-  font-size: 2.5rem;
+.appButtonContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.appIcon {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.appButtonText {
+  text-align: left;
+}
+
+.appButtonLabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.appButtonStore {
+  font-size: 1.1rem;
+  color: white;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.comingSoonText {
+  font-size: 0.9rem;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.heroImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.phoneMockup {
+  width: 280px;
+  height: 570px;
+  background: #1F3240;
+  border-radius: 40px;
+  padding: 12px;
+  box-shadow: 0 20px 60px rgba(31, 50, 64, 0.3);
+  position: relative;
+}
+
+.phoneMockup::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 25px;
+  background: #1F3240;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+}
+
+.phoneMockupInner {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.screenshotPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  color: white;
+}
+
+.screenshotPlaceholder svg {
+  width: 80px;
+  height: 80px;
+  opacity: 0.6;
   margin-bottom: 1rem;
 }
 
-.feature h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-  color: #1F3240;
-}
-
-.feature p {
+.screenshotPlaceholder p {
   font-size: 0.95rem;
-  color: #64748B;
-  line-height: 1.6;
+  font-weight: 600;
+  opacity: 0.8;
 }
 
-.footer {
-  text-align: center;
-  padding: 3rem 2rem;
-  border-top: 1px solid #E5E7EB;
+/* Features Section */
+.featuresSection {
+  background: white;
+  padding: 6rem 2rem;
   margin-top: 4rem;
 }
 
-.footerLinks {
-  display: flex;
-  gap: 2rem;
-  justify-content: center;
-  flex-wrap: wrap;
+.featuresContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1F3240;
   margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
-.footerLinks a {
+.sectionSubtitle {
+  font-size: 1.15rem;
   color: #64748B;
-  font-size: 0.95rem;
-  transition: color 0.3s ease;
+  font-weight: 400;
 }
 
-.footerLinks a:hover {
+.featuresList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 3rem;
+}
+
+.featureItem {
+  text-align: left;
+}
+
+.featureIconWrapper {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.featureIconSvg {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+.featureTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1F3240;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.featureDescription {
+  font-size: 1rem;
+  color: #64748B;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+/* Footer */
+.footer {
+  background: #1F3240;
+  padding: 4rem 2rem 2rem;
+  margin-top: 6rem;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 4rem;
+  margin-bottom: 3rem;
+}
+
+.footerBrand {
+  max-width: 300px;
+}
+
+.footerLogo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+.footerTagline {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.footerLinks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footerColumnTitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.footerColumn a {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footerColumn a:hover {
   color: #F59E0B;
 }
 
+.footerBottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
 .copyright {
-  color: #94A3B8;
   font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .title {
-    font-size: 2.5rem;
-  }
-  
-  .subtitle {
-    font-size: 1.1rem;
-  }
-  
-  .hero {
-    padding: 4rem 1rem 3rem;
-  }
-  
-  .features {
+@media (max-width: 968px) {
+  .heroContent {
     grid-template-columns: 1fr;
-    padding: 3rem 1rem;
+    gap: 3rem;
+  }
+
+  .heroText {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .downloadButtons {
+    justify-content: center;
+  }
+
+  .heroImage {
+    order: -1;
+  }
+
+  .title {
+    font-size: 2.75rem;
+  }
+
+  .featuresList {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .footerContainer {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .footerLinks {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .headerContainer {
+    padding: 1rem 1.5rem;
+  }
+
+  .nav {
+    gap: 1.5rem;
+  }
+
+  .nav a {
+    font-size: 0.9rem;
+  }
+
+  .hero {
+    padding: 4rem 1.5rem 3rem;
+  }
+
+  .title {
+    font-size: 2.25rem;
+  }
+
+  .subtitle {
+    font-size: 1.05rem;
+  }
+
+  .downloadButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .appButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .phoneMockup {
+    width: 240px;
+    height: 490px;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 1rem;
+  }
+
+  .featuresSection {
+    padding: 4rem 1.5rem;
+  }
+
+  .footerLinks {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    padding: 3rem 1.5rem 2rem;
   }
 }
