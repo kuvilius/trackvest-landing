@@ -75,7 +75,7 @@ export default function Privacy() {
           
           <p><strong>Sensitive Information.</strong> We do not process sensitive information.</p>
           
-          <p><strong>Payment Data.</strong> We may collect data necessary to process your payment if you choose to make purchases, such as your payment instrument number, and the security code associated with your payment instrument. All payment data is handled and stored by Stripe. You may find their privacy notice link(s) here: <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer">https://stripe.com/privacy</a>.</p>
+          <p><strong>Payment Data.</strong> We do not collect or store payment information directly. All in-app purchases and subscription payments are processed by Apple (App Store) or Google (Google Play) depending on your device platform. Please refer to their respective privacy policies: <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer">Apple Privacy Policy</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>.</p>
           
           <p><strong>Application Data.</strong> If you use our application(s), we also may collect the following information if you choose to provide us with access or permission:</p>
           <ul>
