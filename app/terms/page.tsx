@@ -302,22 +302,3 @@ export default function Terms() {
     </>
   )
 }
-
-export default function Terms() {
-  useEffect(() => {
-    const sections = document.querySelectorAll('[data-section]')
-    const links = document.querySelectorAll('[data-toc] a')
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          links.forEach(l => l.classList.remove('toc-active'))
-          const a = document.querySelector('[data-toc] a[href="#' + e.target.id + '"]')
-          if (a) a.classList.add('toc-active')
-        }
-      })
-    }, { rootMargin: '-15% 0px -75% 0px' })
-    sections.forEach(s => obs.observe(s))
-    return () => obs.disconnect()
-  }, [])
-  return null
-}
