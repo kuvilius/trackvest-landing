@@ -9,251 +9,217 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 )
 
+type PageState = 'loading' | 'form' | 'success' | 'error'
+
 function ResetPasswordForm() {
+  const [pageState, setPageState] = useState<PageState>('loading')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [initializing, setInitializing] = useState(true)
-  const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [hasSession, setHasSession] = useState(false)
+  const [pw1Error, setPw1Error] = useState('')
+  const [pw2Error, setPw2Error] = useState('')
+  const [showPw1, setShowPw1] = useState(false)
+  const [showPw2, setShowPw2] = useState(false)
 
-  // Supabase sends recovery links with URL hash fragments
-  // Format: https://trackvest.app/reset-password#access_token=...&type=recovery
   useEffect(() => {
     const initializeSession = async () => {
       try {
-        // Debug: log the full URL
-        const fullUrl = window.location.href
         const hash = window.location.hash
         const search = window.location.search
-        console.log('Full URL:', fullUrl)
-        console.log('Hash fragment:', hash)
-        console.log('Query string:', search)
-        
-        // Check for query parameter code (PKCE flow from Supabase)
         const queryParams = new URLSearchParams(search)
         const code = queryParams.get('code')
-        
+
         if (code) {
-          console.log('Found code in query params, attempting to exchange')
-          // For password recovery, try exchanging with empty code verifier
           const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-          
-          if (error) {
-            console.error('Code exchange error:', error)
-            setError('This reset link cannot be opened in a browser. Please use the mobile app or request a new reset link.')
-            setInitializing(false)
-            return
-          }
-          
-          if (data.session) {
-            console.log('Session established from code exchange')
-            setHasSession(true)
-            setInitializing(false)
-            return
-          }
+          if (error || !data.session) { setPageState('error'); return }
+          setHasSession(true); setPageState('form'); return
         }
-        
-        // Parse hash parameters manually
-        const hashParams = new URLSearchParams(hash.substring(1)) // Remove the '#'
+
+        const hashParams = new URLSearchParams(hash.substring(1))
         const accessToken = hashParams.get('access_token')
-        const refreshToken = hashParams.get('refresh_token')
-        const type = hashParams.get('type')
-        
-        console.log('Hash params:', { 
-          accessToken: accessToken ? 'present' : 'missing',
-          refreshToken: refreshToken ? 'present' : 'missing', 
-          type 
-        })
-        
-        // If we have an access token in the hash (even without refresh token)
+
         if (accessToken) {
-          console.log('Found access token, attempting verification')
-          
-          // The token is actually a token_hash for OTP verification
-          // Use verifyOtp instead of setSession
           try {
             const { data, error: verifyError } = await supabase.auth.verifyOtp({
               token_hash: accessToken,
               type: 'recovery',
             })
-            
-            if (verifyError) {
-              console.error('OTP verification error:', verifyError)
-              setError('Failed to verify reset link. The link may have expired.')
-              setInitializing(false)
-              return
-            }
-            
-            if (data.session) {
-              console.log('Session established from OTP verification')
-              setHasSession(true)
-              setInitializing(false)
-              return
-            }
-          } catch (err) {
-            console.error('Verification error:', err)
-            setError('Failed to process reset link.')
-            setInitializing(false)
-            return
+            if (verifyError || !data.session) { setPageState('error'); return }
+            setHasSession(true); setPageState('form'); return
+          } catch {
+            setPageState('error'); return
           }
         }
-        
-        // Fallback: check if session already exists
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-        
-        if (sessionError) {
-          console.error('Session error:', sessionError)
-          setError('Failed to establish reset session. Please request a new reset link.')
-          setInitializing(false)
-          return
-        }
 
-        if (session) {
-          console.log('Reset session already established')
-          setHasSession(true)
-        } else {
-          console.log('No session found and no tokens in URL')
-          setError('Reset link has expired or is invalid. Please request a new password reset.')
-        }
-      } catch (err) {
-        console.error('Initialization error:', err)
-        setError('An error occurred. Please request a new password reset.')
-      } finally {
-        setInitializing(false)
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session) { setHasSession(true); setPageState('form') }
+        else { setPageState('error') }
+      } catch {
+        setPageState('error')
       }
     }
 
+    // No token in URL at all — show error after brief pause
+    const hash = window.location.hash
+    const search = window.location.search
+    if (!hash && !new URLSearchParams(search).get('code')) {
+      const t = setTimeout(() => setPageState('error'), 1200)
+      initializeSession()
+      return () => clearTimeout(t)
+    }
     initializeSession()
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
+    setPw1Error(''); setPw2Error('')
+    let valid = true
 
-    if (!password || password.length < 6) {
-      setError('Password must be at least 6 characters')
-      return
-    }
+    if (password.length < 8) { setPw1Error('Password must be at least 8 characters.'); valid = false }
+    if (password !== confirmPassword) { setPw2Error("Passwords don't match."); valid = false }
+    if (!valid) return
 
-    if (password !== confirmPassword) {
-      setError('Passwords do not match')
-      return
-    }
+    if (!hasSession) { setPw1Error('No active session. Please click the reset link in your email again.'); return }
 
-    if (!hasSession) {
-      setError('No active session. Please click the reset link in your email again.')
-      return
-    }
-
-    setLoading(true)
-
+    setSubmitting(true)
     try {
-      // Update the password using the established session
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: password,
-      })
-
-      if (updateError) {
-        console.error('Password update error:', updateError)
-        setError('Failed to update password: ' + updateError.message)
-        return
-      }
-
-      setSuccess(true)
-      
-      // Sign out after password reset
+      const { error: updateError } = await supabase.auth.updateUser({ password })
+      if (updateError) { setPw1Error('Failed to update password: ' + updateError.message); return }
       await supabase.auth.signOut()
-      
-      setTimeout(() => {
-        window.location.href = '/'
-      }, 3000)
+      setPageState('success')
     } catch (err: any) {
-      console.error('Password reset error:', err)
-      setError(err.message || 'Failed to reset password. Please try again.')
+      setPw1Error(err.message || 'Failed to reset password. Please try again.')
     } finally {
-      setLoading(false)
+      setSubmitting(false)
     }
   }
 
-  if (success) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.card}>
-          <div className={styles.successIcon}>✓</div>
-          <h1 className={styles.title}>Password Reset Successful!</h1>
-          <p className={styles.subtitle}>
-            Your password has been updated. You can now log in to the TrackVest app with your new password.
-          </p>
-          <a href="/" className={styles.button}>
-            Back to Home
+  const bgClass = pageState === 'success' ? styles.bgSuccess
+    : pageState === 'error' ? styles.bgError
+    : styles.bgForm
+
+  return (
+    <div className={styles.shell}>
+      <div className={`${styles.bg} ${bgClass}`} />
+
+      {/* LOADING */}
+      <div className={`${styles.stage} ${pageState === 'loading' ? styles.visible : ''}`}>
+        <div className={styles.spinner} />
+        <p className={styles.verifying}>Loading…</p>
+      </div>
+
+      {/* FORM */}
+      <div className={`${styles.stage} ${pageState === 'form' ? styles.visible : ''}`}>
+        <a className={styles.logo} href="/">
+          <img src="/assets/logo-icon.png" alt="TrackVest" width={36} height={36} />
+          <span>TrackVest</span>
+        </a>
+        <h1 className={styles.headline}>New password.</h1>
+        <p className={styles.subline} style={{ marginBottom: '32px' }}>Almost there. Set a new password to get back into your account.</p>
+
+        <form className={styles.form} onSubmit={handleSubmit} noValidate>
+          <div className={styles.field}>
+            <label htmlFor="pw1" className={styles.fieldLabel}>New password</label>
+            <div className={styles.inputWrap}>
+              <input
+                id="pw1"
+                type={showPw1 ? 'text' : 'password'}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="At least 8 characters"
+                autoComplete="new-password"
+                className={`${styles.input} ${pw1Error ? styles.inputErr : ''}`}
+                disabled={submitting}
+              />
+              <button type="button" className={styles.toggleVis} aria-label="Show password" onClick={() => setShowPw1(v => !v)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            {pw1Error && <span className={styles.fieldError}>{pw1Error}</span>}
+          </div>
+
+          <div className={styles.field}>
+            <label htmlFor="pw2" className={styles.fieldLabel}>Confirm password</label>
+            <div className={styles.inputWrap}>
+              <input
+                id="pw2"
+                type={showPw2 ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                placeholder="Repeat your password"
+                autoComplete="new-password"
+                className={`${styles.input} ${pw2Error ? styles.inputErr : ''}`}
+                disabled={submitting}
+              />
+              <button type="button" className={styles.toggleVis} aria-label="Show password" onClick={() => setShowPw2(v => !v)}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+            {pw2Error && <span className={styles.fieldError}>{pw2Error}</span>}
+          </div>
+
+          <button type="submit" className={styles.submitBtn} disabled={submitting}>
+            {submitting ? 'Updating…' : 'Update password'}
+          </button>
+        </form>
+      </div>
+
+      {/* SUCCESS */}
+      <div className={`${styles.stage} ${styles.success} ${pageState === 'success' ? styles.visible : ''}`}>
+        <a className={styles.logo} href="/">
+          <img src="/assets/logo-icon.png" alt="TrackVest" width={36} height={36} />
+          <span>TrackVest</span>
+        </a>
+        <div className={styles.iconWrap}>
+          <div className={`${styles.iconRing} ${styles.iconRing1}`} />
+          <div className={`${styles.iconRing} ${styles.iconRing2}`} />
+          <div className={styles.iconCore}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path className={styles.checkPath} d="M20 6 9 17l-5-5" />
+            </svg>
+          </div>
+        </div>
+        <h1 className={styles.headline}>All done.</h1>
+        <p className={styles.subline}>Your password has been updated. Open the app to sign in.</p>
+        <div className={styles.storeRow}>
+          <a className={styles.appbtn} href="#" aria-label="Download on the App Store">
+            <svg className={styles.appbtnIc} viewBox="0 0 384 512" fill="currentColor">
+              <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
+            </svg>
+            <span className={styles.appbtnTx}><small>Download on the</small><strong>App Store</strong></span>
+          </a>
+          <a className={styles.appbtn} href="#" aria-label="Get it on Google Play">
+            <svg className={styles.appbtnIc} viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.5 4.2v15.6c0 .86.94 1.4 1.68.95l12.86-7.8a1.1 1.1 0 0 0 0-1.9L8.18 3.25c-.74-.45-1.68.08-1.68.95z"/>
+            </svg>
+            <span className={styles.appbtnTx}><small>Get it on</small><strong>Google Play</strong></span>
           </a>
         </div>
       </div>
-    )
-  }
 
-  if (initializing) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.card}>
-          <div className={styles.spinner}></div>
-          <p className={styles.subtitle}>Verifying reset link...</p>
+      {/* ERROR */}
+      <div className={`${styles.stage} ${styles.error} ${pageState === 'error' ? styles.visible : ''}`}>
+        <a className={styles.logo} href="/">
+          <img src="/assets/logo-icon.png" alt="TrackVest" width={36} height={36} />
+          <span>TrackVest</span>
+        </a>
+        <div className={styles.iconWrap}>
+          <div className={styles.iconCore}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </div>
         </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <h1 className={styles.title}>Reset Your Password</h1>
-        <p className={styles.subtitle}>Enter your new password below</p>
-
-        <form onSubmit={handleSubmit} className={styles.form}>
-          {error && (
-            <div className={styles.error}>
-              {error}
-            </div>
-          )}
-
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>New Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter new password"
-              className={styles.input}
-              minLength={6}
-              required
-              disabled={loading}
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>Confirm Password</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm new password"
-              className={styles.input}
-              minLength={6}
-              required
-              disabled={loading}
-            />
-          </div>
-
-          <button
-            type="submit"
-            className={styles.button}
-            disabled={loading}
-          >
-            {loading ? 'Resetting...' : 'Reset Password'}
-          </button>
-        </form>
+        <h1 className={styles.headline}>Link expired.</h1>
+        <p className={styles.subline}>This reset link has expired or already been used. Request a new one from the app.</p>
+        <a className={styles.supportLink} href="mailto:support@trackvest.app">
+          Need help? support@trackvest.app
+        </a>
       </div>
     </div>
   )
@@ -262,11 +228,8 @@ function ResetPasswordForm() {
 export default function ResetPassword() {
   return (
     <Suspense fallback={
-      <div className={styles.container}>
-        <div className={styles.card}>
-          <div className={styles.spinner}></div>
-          <p>Loading...</p>
-        </div>
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--paper)' }}>
+        <div style={{ width: 44, height: 44, border: '3px solid var(--line)', borderTopColor: 'var(--accent)', borderRadius: '50%', animation: 'spin .75s linear infinite' }} />
       </div>
     }>
       <ResetPasswordForm />
