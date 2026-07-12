@@ -51,24 +51,25 @@ export default function Terms() {
             <li><a href="#ugc">9. User Contributions</a></li>
             <li><a href="#license">10. Contribution Licence</a></li>
             <li><a href="#mobile">11. Mobile App Licence</a></li>
-            <li><a href="#thirdparty">12. Third-Party Content</a></li>
-            <li><a href="#sitemanage">13. Services Management</a></li>
-            <li><a href="#ppyes">14. Privacy Policy</a></li>
-            <li><a href="#copyrightyes">15. Copyright</a></li>
-            <li><a href="#terms">16. Term &amp; Termination</a></li>
-            <li><a href="#modifications">17. Modifications</a></li>
-            <li><a href="#law">18. Governing Law</a></li>
-            <li><a href="#disputes">19. Dispute Resolution</a></li>
-            <li><a href="#corrections">20. Corrections</a></li>
-            <li><a href="#disclaimer">21. Disclaimer</a></li>
-            <li><a href="#liability">22. Liability</a></li>
-            <li><a href="#indemnification">23. Indemnification</a></li>
-            <li><a href="#userdata">24. User Data</a></li>
-            <li><a href="#electronic">25. Electronic Comms</a></li>
-            <li><a href="#california">26. California Users</a></li>
-            <li><a href="#misc">27. Miscellaneous</a></li>
-            <li><a href="#addclause">28. Price Disclaimer</a></li>
-            <li><a href="#contact">29. Contact</a></li>
+            <li><a href="#socialauth">12. Third-Party Sign-In</a></li>
+            <li><a href="#thirdparty">13. Third-Party Content</a></li>
+            <li><a href="#sitemanage">14. Services Management</a></li>
+            <li><a href="#ppyes">15. Privacy Policy</a></li>
+            <li><a href="#copyrightyes">16. Copyright</a></li>
+            <li><a href="#terms">17. Term &amp; Termination</a></li>
+            <li><a href="#modifications">18. Modifications</a></li>
+            <li><a href="#law">19. Governing Law</a></li>
+            <li><a href="#disputes">20. Dispute Resolution</a></li>
+            <li><a href="#corrections">21. Corrections</a></li>
+            <li><a href="#disclaimer">22. Disclaimer</a></li>
+            <li><a href="#liability">23. Liability</a></li>
+            <li><a href="#indemnification">24. Indemnification</a></li>
+            <li><a href="#userdata">25. User Data</a></li>
+            <li><a href="#electronic">26. Electronic Comms</a></li>
+            <li><a href="#california">27. California Users</a></li>
+            <li><a href="#misc">28. Miscellaneous</a></li>
+            <li><a href="#addclause">29. Price Disclaimer</a></li>
+            <li><a href="#contact">30. Contact</a></li>
           </ul>
         </aside>
 
@@ -76,7 +77,7 @@ export default function Terms() {
           <header className={styles.legalHeader}>
             <div className={styles.legalTag}>Legal</div>
             <h1 className={styles.legalTitle}>Terms &amp; Conditions</h1>
-            <p className={styles.legalMeta}>Last updated February 07, 2026</p>
+            <p className={styles.legalMeta}>Last updated July 12, 2026</p>
           </header>
 
           <p>We are Vilius Kurtkus trading as TrackVest (&quot;Company&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;), registered in England at 4 Culmington Road, London W13 9NR. We operate <a href="https://www.trackvest.app">trackvest.app</a> and the TrackVest mobile app for iOS and Android.</p>
@@ -171,8 +172,23 @@ export default function Terms() {
             <p><strong>Apple &amp; Android.</strong> Your use is also subject to the applicable App Distributor&apos;s terms of service. App Distributors are third-party beneficiaries of this licence. We are responsible for maintenance and support, not the App Distributors.</p>
           </section>
 
-          <section className={styles.legalSection} id="thirdparty" data-section="">
+          <section className={styles.legalSection} id="socialauth" data-section="">
             <div className={styles.sectionNum}>12</div>
+            <h2 className={styles.sectionTitle}>Third-Party Sign-In Services</h2>
+            <p>We offer sign-in via <strong>Sign in with Apple</strong> and <strong>Google Sign In</strong>. By using these services you agree to the applicable third-party terms:</p>
+            <ul>
+              <li><a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener noreferrer">Apple Media Services Terms and Conditions</a></li>
+              <li><a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Google Terms of Service</a></li>
+            </ul>
+            <p>We are not responsible for the practices of Apple or Google. See our <a href="/privacy#sociallogin">Privacy Policy — Sign in with Apple &amp; Google</a> for details of what data we receive and how we use it.</p>
+            <h3 className={styles.sectionSubtitle}>Account responsibility</h3>
+            <p>You are responsible for maintaining the security of the Apple ID or Google account linked to your TrackVest account. If you lose access to that Apple ID or Google account, you may lose access to TrackVest. We strongly recommend also setting an email and password on your account as a backup authentication method.</p>
+            <h3 className={styles.sectionSubtitle}>Account deletion</h3>
+            <p>You may delete your TrackVest account at any time from the app&apos;s <strong>Settings → Delete Account</strong>. Upon deletion, your personal data will be permanently anonymised or erased within 30 days in accordance with our <a href="/privacy">Privacy Policy</a>. This action is irreversible. Revoking third-party sign-in access (Apple/Google) alone does not delete your TrackVest account.</p>
+          </section>
+
+          <section className={styles.legalSection} id="thirdparty" data-section="">
+            <div className={styles.sectionNum}>13</div>
             <h2 className={styles.sectionTitle}>Third-Party Websites and Content</h2>
             <p>Our Services may contain links to third-party websites and content we do not control. We are not responsible for the accuracy, opinions, reliability, or privacy practices of third-party sites. Accessing third-party content is at your own risk and is governed by those parties&apos; own terms, not ours.</p>
           </section>

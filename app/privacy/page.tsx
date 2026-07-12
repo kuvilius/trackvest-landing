@@ -41,20 +41,21 @@ export default function Privacy() {
           <div className={styles.tocLabel}>Contents</div>
           <ul className={styles.tocList}>
             <li><a href="#infocollect">1. Information We Collect</a></li>
-            <li><a href="#infouse">2. How We Process It</a></li>
-            <li><a href="#legalbases">3. Legal Bases</a></li>
-            <li><a href="#whoshare">4. Who We Share With</a></li>
-            <li><a href="#intltransfers">5. International Transfers</a></li>
-            <li><a href="#inforetain">6. Retention</a></li>
-            <li><a href="#infosafe">7. Security</a></li>
-            <li><a href="#infominors">8. Minors</a></li>
-            <li><a href="#privacyrights">9. Your Rights</a></li>
-            <li><a href="#DNT">10. Do-Not-Track</a></li>
-            <li><a href="#uslaws">11. US Residents</a></li>
-            <li><a href="#clausea">12. Price Disclaimers</a></li>
-            <li><a href="#policyupdates">13. Updates</a></li>
-            <li><a href="#contact">14. Contact</a></li>
-            <li><a href="#request">15. Data Requests</a></li>
+            <li><a href="#sociallogin">2. Sign in with Apple &amp; Google</a></li>
+            <li><a href="#infouse">3. How We Process It</a></li>
+            <li><a href="#legalbases">4. Legal Bases</a></li>
+            <li><a href="#whoshare">5. Who We Share With</a></li>
+            <li><a href="#intltransfers">6. International Transfers</a></li>
+            <li><a href="#inforetain">7. Retention</a></li>
+            <li><a href="#infosafe">8. Security</a></li>
+            <li><a href="#infominors">9. Minors</a></li>
+            <li><a href="#privacyrights">10. Your Rights</a></li>
+            <li><a href="#DNT">11. Do-Not-Track</a></li>
+            <li><a href="#uslaws">12. US Residents</a></li>
+            <li><a href="#clausea">13. Price Disclaimers</a></li>
+            <li><a href="#policyupdates">14. Updates</a></li>
+            <li><a href="#contact">15. Contact</a></li>
+            <li><a href="#request">16. Data Requests</a></li>
           </ul>
         </aside>
 
@@ -62,7 +63,7 @@ export default function Privacy() {
           <header className={styles.legalHeader}>
             <div className={styles.legalTag}>Legal</div>
             <h1 className={styles.legalTitle}>Privacy Policy</h1>
-            <p className={styles.legalMeta}>Last updated February 07, 2026</p>
+            <p className={styles.legalMeta}>Last updated July 12, 2026</p>
           </header>
 
           <p>This Privacy Notice for Vilius Kurtkus trading as TrackVest (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) describes how and why we might access, collect, store, use, and/or share your personal information when you use our services — including our mobile application for iOS and Android — or engage with us in other related ways.</p>
@@ -92,8 +93,32 @@ export default function Privacy() {
             </ul>
           </section>
 
-          <section className={styles.legalSection} id="infouse" data-section="">
+          <section className={styles.legalSection} id="sociallogin" data-section="">
             <div className={styles.sectionNum}>02</div>
+            <h2 className={styles.sectionTitle}>Sign in with Apple &amp; Google</h2>
+            <p>You may choose to sign in using <strong>Sign in with Apple</strong> or <strong>Google Sign In</strong>. When you do, Apple or Google shares your name and email address with us solely to create and identify your account. We do not receive your Apple ID password or Google account password at any time.</p>
+            <h3 className={styles.sectionSubtitle}>What we receive and why</h3>
+            <ul>
+              <li><strong>Email address</strong> — used as your account identifier and for account-related communications only.</li>
+              <li><strong>Display name</strong> — used as your in-app display name. You can update it at any time in your profile settings.</li>
+              <li><strong>Authentication token</strong> — a short-lived cryptographic token provided by Apple or Google that proves your identity. We do not store it beyond the current session.</li>
+            </ul>
+            <p>We do not use your Apple or Google identity for advertising, analytics profiling, or any purpose other than authenticating you and maintaining your account.</p>
+            <h3 className={styles.sectionSubtitle}>Sign in with Apple — Hide My Email</h3>
+            <p>If you choose Apple&apos;s &quot;Hide My Email&quot; option, Apple provides us with a private relay email address unique to you (e.g. <em>randomstring@privaterelay.appleid.com</em>). We will use this relay address only to send account-related communications. You can disable the relay at any time in <strong>Apple ID Settings → Password &amp; Security → Apps Using Apple ID</strong>, which will stop email delivery to your TrackVest account.</p>
+            <h3 className={styles.sectionSubtitle}>Revoking access</h3>
+            <p>You may revoke TrackVest&apos;s access to your Apple or Google account at any time:</p>
+            <ul>
+              <li><strong>Apple:</strong> Settings → [your name] → Password &amp; Security → Apps Using Apple ID → TrackVest → Stop Using Apple ID.</li>
+              <li><strong>Google:</strong> myaccount.google.com → Security → Third-party apps with account access → TrackVest → Remove Access.</li>
+            </ul>
+            <p>Revoking access does not automatically delete your TrackVest account. To delete your account and all associated data, use the account deletion option in the app&apos;s Settings screen or contact <a href="mailto:support@trackvest.app">support@trackvest.app</a>.</p>
+            <h3 className={styles.sectionSubtitle}>Third-party privacy policies</h3>
+            <p>Apple and Google&apos;s handling of your data during the sign-in process is governed by their respective privacy policies: <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer">Apple Privacy Policy</a> and <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google Privacy Policy</a>. We are not responsible for their data practices.</p>
+          </section>
+
+          <section className={styles.legalSection} id="infouse" data-section="">
+            <div className={styles.sectionNum}>03</div>
             <h2 className={styles.sectionTitle}>How Do We Process Your Information?</h2>
             <p>We process your personal information to provide, improve, and administer our Services, communicate with you, and comply with law. Specific purposes include:</p>
             <ul>
@@ -107,14 +132,14 @@ export default function Privacy() {
           </section>
 
           <section className={styles.legalSection} id="legalbases" data-section="">
-            <div className={styles.sectionNum}>03</div>
+            <div className={styles.sectionNum}>04</div>
             <h2 className={styles.sectionTitle}>What Legal Bases Do We Rely On?</h2>
             <p><strong>EU / UK users (GDPR).</strong> We rely on: <strong>Consent</strong> (withdrawable at any time), <strong>Contract performance</strong>, <strong>Legitimate interests</strong> (analytics, fraud prevention, UX improvement), <strong>Legal obligations</strong>, and <strong>Vital interests</strong> where applicable.</p>
             <p><strong>Canada.</strong> We rely on express or implied consent. In exceptional cases permitted by law, we may process your data without consent (e.g. fraud detection, legal compliance).</p>
           </section>
 
           <section className={styles.legalSection} id="whoshare" data-section="">
-            <div className={styles.sectionNum}>04</div>
+            <div className={styles.sectionNum}>05</div>
             <h2 className={styles.sectionTitle}>When and With Whom Do We Share Your Data?</h2>
             <p>We only share data with third-party service providers who operate under data processing agreements with us:</p>
             <ul>
@@ -125,31 +150,31 @@ export default function Privacy() {
           </section>
 
           <section className={styles.legalSection} id="intltransfers" data-section="">
-            <div className={styles.sectionNum}>05</div>
+            <div className={styles.sectionNum}>06</div>
             <h2 className={styles.sectionTitle}>International Transfers</h2>
             <p>Our servers are located in the United States. If you are in the EEA, UK, or Switzerland, your data may be transferred to countries with different data protection standards. We mitigate this through the European Commission&apos;s <strong>Standard Contractual Clauses</strong>. Copies are available upon request.</p>
           </section>
 
           <section className={styles.legalSection} id="inforetain" data-section="">
-            <div className={styles.sectionNum}>06</div>
+            <div className={styles.sectionNum}>07</div>
             <h2 className={styles.sectionTitle}>How Long Do We Keep Your Information?</h2>
             <p>We retain your personal information for as long as your account is active, or as required by law. When we no longer have a legitimate need to process your data, we delete or anonymise it. Data stored in backup archives is isolated and deleted as soon as technically feasible.</p>
           </section>
 
           <section className={styles.legalSection} id="infosafe" data-section="">
-            <div className={styles.sectionNum}>07</div>
+            <div className={styles.sectionNum}>08</div>
             <h2 className={styles.sectionTitle}>How Do We Keep Your Information Safe?</h2>
             <p>We implement appropriate technical and organisational security measures. However, no internet transmission or storage system is 100% secure — we cannot guarantee that unauthorised third parties will never be able to circumvent our security. You should only access our Services within a secure environment.</p>
           </section>
 
           <section className={styles.legalSection} id="infominors" data-section="">
-            <div className={styles.sectionNum}>08</div>
+            <div className={styles.sectionNum}>09</div>
             <h2 className={styles.sectionTitle}>Do We Collect Information from Minors?</h2>
             <p>We do not knowingly collect data from or market to children under 18. If you become aware of any data collected from a minor, please contact us at <a href="mailto:support@trackvest.app">support@trackvest.app</a> and we will promptly delete it.</p>
           </section>
 
           <section className={styles.legalSection} id="privacyrights" data-section="">
-            <div className={styles.sectionNum}>09</div>
+            <div className={styles.sectionNum}>10</div>
             <h2 className={styles.sectionTitle}>What Are Your Privacy Rights?</h2>
             <p>Depending on your location (EEA, UK, Switzerland, Canada, or certain US states), you may have the right to:</p>
             <ul>
@@ -168,13 +193,13 @@ export default function Privacy() {
           </section>
 
           <section className={styles.legalSection} id="DNT" data-section="">
-            <div className={styles.sectionNum}>10</div>
+            <div className={styles.sectionNum}>11</div>
             <h2 className={styles.sectionTitle}>Controls for Do-Not-Track Features</h2>
             <p>No uniform DNT standard has been finalised. We do not currently respond to DNT browser signals. If a standard is adopted that we must follow, we will update this notice accordingly. California law requires us to disclose this.</p>
           </section>
 
           <section className={styles.legalSection} id="uslaws" data-section="">
-            <div className={styles.sectionNum}>11</div>
+            <div className={styles.sectionNum}>12</div>
             <h2 className={styles.sectionTitle}>US Residents — Specific Privacy Rights</h2>
             <p>Residents of California, Colorado, Connecticut, and other covered states may have additional rights to access, correct, delete, and opt out of certain processing of their personal data.</p>
             <h3 className={styles.sectionSubtitle}>Categories of data collected (last 12 months)</h3>
@@ -222,19 +247,19 @@ export default function Privacy() {
           </section>
 
           <section className={styles.legalSection} id="clausea" data-section="">
-            <div className={styles.sectionNum}>12</div>
+            <div className={styles.sectionNum}>13</div>
             <h2 className={styles.sectionTitle}>Market Price Disclaimers</h2>
             <p>Market price estimates and portfolio valuations provided by TrackVest are for <strong>informational purposes only</strong> and do not constitute financial, investment, or professional advice. Price data is sourced from third-party providers and public market sources. Actual market values may vary significantly. Users should conduct their own research and consult qualified professionals before making financial decisions. We are not liable for any losses or damages arising from reliance on price estimates or valuations.</p>
           </section>
 
           <section className={styles.legalSection} id="policyupdates" data-section="">
-            <div className={styles.sectionNum}>13</div>
+            <div className={styles.sectionNum}>14</div>
             <h2 className={styles.sectionTitle}>Do We Update This Notice?</h2>
             <p>Yes. We may update this Privacy Notice from time to time and will indicate the revised date at the top. Material changes will be communicated by prominent notice or direct notification. We encourage you to review this notice periodically.</p>
           </section>
 
           <section className={styles.legalSection} id="contact" data-section="">
-            <div className={styles.sectionNum}>14</div>
+            <div className={styles.sectionNum}>15</div>
             <h2 className={styles.sectionTitle}>How Can You Contact Us?</h2>
             <div className={styles.contactCard}>
               <div className={styles.contactTitle}>TrackVest</div>
@@ -243,7 +268,7 @@ export default function Privacy() {
           </section>
 
           <section className={styles.legalSection} id="request" data-section="">
-            <div className={styles.sectionNum}>15</div>
+            <div className={styles.sectionNum}>16</div>
             <h2 className={styles.sectionTitle}>How Can You Review, Update, or Delete Your Data?</h2>
             <p>Based on applicable law, you may have the right to request access to, correction of, or deletion of your personal information. To submit a request, email <a href="mailto:support@trackvest.app">support@trackvest.app</a>.</p>
           </section>
