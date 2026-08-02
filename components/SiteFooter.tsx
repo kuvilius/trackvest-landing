@@ -10,7 +10,7 @@ export default function SiteFooter() {
               TrackVest
             </a>
             <p>
-              The portfolio tracker for collectors. Track the real value of
+              Where your collection lives. Track the real value of
               everything you own — all in one place.
             </p>
           </div>

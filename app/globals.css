@@ -87,13 +87,14 @@ p{margin:0}
 /* ---------- buttons / store badges ---------- */
 .store-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .appbtn{
-  display:inline-flex;align-items:center;gap:12px;
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
   background:var(--ink);color:#fff;text-decoration:none;
   padding:11px 22px 11px 18px;border-radius:14px;
+  width:186px;box-sizing:border-box;
   transition:background .2s ease,transform .2s ease;
 }
 .appbtn:hover{background:var(--ink-900);transform:translateY(-2px)}
-.appbtn-ic{width:24px;height:24px;flex:none;fill:#fff}
+.appbtn-ic{width:26px;height:26px;flex:none;fill:#fff;shape-rendering:geometricPrecision}
 .appbtn-tx{display:flex;flex-direction:column;line-height:1.18;gap:1px}
 .appbtn-tx small{font-size:.66rem;letter-spacing:.02em;opacity:.82;font-weight:500}
 .appbtn-tx strong{font-family:var(--font-display);font-size:1.08rem;font-weight:700;letter-spacing:-.01em}

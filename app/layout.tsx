@@ -25,9 +25,9 @@ const SITE_URL = 'https://www.trackvest.app';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: 'TrackVest — Track the Real Value of Your Collection',
+  title: 'TrackVest — Where Your Collection Lives',
   description:
-    'TrackVest tracks the live market value of everything you collect. Get real-time pricing, full price history, performance analytics and smart alerts — all in one portfolio.',
+    'TrackVest keeps track of everything you collect — watches, sneakers, trading cards, wine and more. See live market values, full price history, and how your collection is doing, all in one place.',
   robots: { index: true, follow: true },
   alternates: { canonical: '/' },
   icons: { icon: '/assets/logo-icon.png', apple: '/assets/logo-icon.png' },

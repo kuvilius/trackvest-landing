@@ -17,7 +17,7 @@ export default function HomePage() {
           id="features"
           screenLabel="Insights"
           eyebrow="The complete picture"
-          title="See how your whole portfolio is performing."
+          title="See how your whole collection is performing."
           mediaSide="right"
           screen={{
             src: "/assets/screen-insights2.png",

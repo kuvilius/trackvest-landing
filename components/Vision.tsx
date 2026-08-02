@@ -7,11 +7,11 @@ export default function Vision() {
         <div className="vision-grid">
           <Reveal className="head" style={{ maxWidth: "none" }}>
             <span className="eyebrow">Beyond the obvious</span>
-            <h2>A portfolio for everything worth holding onto.</h2>
+            <h2>A home for everything worth holding onto.</h2>
             <p className="lead">
-              People track the markets to the cent. The things you collect are an
-              investment too — and far harder to value. TrackVest brings them the
-              same clarity, all in one place.
+              Details end up scattered across screenshots, spreadsheets and old
+              receipts. TrackVest brings it all together and keeps it current,
+              whatever you collect.
             </p>
             <div className="taglist">
               <span className="live">Real-time value</span>

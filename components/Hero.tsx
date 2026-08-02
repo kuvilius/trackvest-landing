@@ -8,19 +8,17 @@ export default function Hero() {
       <div className="wrap">
         <div className="hero-grid">
           <Reveal immediate className="hero-copy">
-            <span className="eyebrow">Portfolio tracking for collectors</span>
+            <span className="eyebrow">For watches, sneakers, cards &amp; wine</span>
             <h1>
-              Your collection is
+              Your collection,
               <br />
-              an <span className="hl">asset class.</span>
-              <br />
-              Track it like one.
+              finally <span className="hl">all in one place.</span>
             </h1>
             <div className="hero-sub">
               <p className="lead">
-                TrackVest fetches live market prices for everything you own, charts
-                each asset&apos;s value over time, and shows how your whole portfolio
-                is performing — automatically.
+                TrackVest keeps track of everything you collect, checks it against
+                live market prices, and shows you what it&apos;s really worth —
+                automatically.
               </p>
             </div>
             <StoreButtons />
